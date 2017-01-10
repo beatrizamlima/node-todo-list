@@ -1,0 +1,17 @@
+  <h2>Tasks</h2>  
+  
+  <ul class="tasks">
+  {{#each tasks}}
+  <form action="/delete" method="POST">
+    <li class="task">
+      <span>
+        <a href="/tasks/{{task}}">{{task}}</a><br>
+        <input type="hidden" name="task" value="{{task}}">
+        <!-- <button id="deletar" type="submit">X</button> -->
+      </span>
+    </li>
+  </form>
+  {{/each}}
+  </ul>
+
+<a href="/">Voltar</a>

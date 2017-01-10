@@ -1,0 +1,12 @@
+#deletar{
+  text-decoration: none;
+  border: none;
+  background-color: white;
+  color: red;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
