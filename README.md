@@ -1,1 +1,3 @@
-# node-todo-list
+# Node-Todo-List
+
+Made by @bea-lima
