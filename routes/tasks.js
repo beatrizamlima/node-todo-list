@@ -33,10 +33,11 @@ exports.addTask = function(req, res) {
 
 exports.findByTask = function(req, res) {
     var task = req.params.task
+    var description
     console.log('Retrieving task: ' + task)
     db.collection('tasks', function(err, collection) {
         collection.findOne({'task':task}, function(err, result) {
-            res.render('task.hbs', {task: result.task})
+            res.render('task.hbs', {task: result.task, description: result.description})
         })
     })
 }
@@ -59,9 +60,10 @@ exports.updateTask = function(req, res) {
     var task = req.body
     var newtask = task.newtask
     var oldtask = task.task
+    var description = task.description
 
     db.collection('tasks', function(err, collection) {
-        collection.update({'task':oldtask}, {'task':newtask}, {safe:true}, function(err, result) {
+        collection.update({'task':oldtask}, {'task':newtask, 'description':description}, {safe:true}, function(err, result) {
             if (err) {
                 console.log('Error updating task: ' + err)
                 res.send({'error':'An error has occurred'})

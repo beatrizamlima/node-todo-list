@@ -4,7 +4,7 @@
   <ul class="tasks">
     <li class="task">
       <span>
-        Description<br>
+        Description: {{description}}<br>
         <input type="hidden" name="task" value="{{task}}">
       </span>
     </li>
@@ -14,8 +14,11 @@
 <button id="deletar" type="submit">X</button>
 </form>
 
+
+<h3>Edit Task</h3>
 <form action="/update/{{task}}" method="post">
   <input type="hidden" name="task" value="{{task}}">
-  <input type="text" name="newtask" value="{{task}}" size="6">
-  <button type="submit">Edit Task Name</button>
+  <input type="text" name="newtask" value="{{task}}"><br><br>
+  <textarea name="description" cols="25" rows="6">{{description}}</textarea><br><br>
+  <button type="submit">Edit Task</button>
 </form>
