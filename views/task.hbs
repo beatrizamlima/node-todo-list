@@ -1,0 +1,21 @@
+  <h2>{{task}}</h2>  
+  
+  <form action="/delete/{{task}}" method="post">
+  <ul class="tasks">
+    <li class="task">
+      <span>
+        Description<br>
+        <input type="hidden" name="task" value="{{task}}">
+      </span>
+    </li>
+  </ul>
+
+<a href="/tasks">Go Back</a>
+<button id="deletar" type="submit">X</button>
+</form>
+
+<form action="/update/{{task}}" method="post">
+  <input type="hidden" name="task" value="{{task}}">
+  <input type="text" name="newtask" value="{{task}}" size="6">
+  <button type="submit">Edit Task Name</button>
+</form>

@@ -1,4 +1,8 @@
 const MongoClient = require('mongodb').MongoClient
+ObjectId = require('mongodb').ObjectId
+var mongo = require('mongodb');
+BSON = mongo.BSONPure;
+
 var db
 
 MongoClient.connect('mongodb://root:123@ds159978.mlab.com:59978/tasksdb', (err, database) => {
@@ -11,62 +15,59 @@ exports.findAll = function(req, res) {
     if (err) return console.log(err)
     res.render('tasks.hbs', {tasks: result})
   })
-};
+}
 
 exports.addTask = function(req, res) {
-    var task = req.body;
-    console.log('Adding task: ' + JSON.stringify(task));
+    var task = req.body
     db.collection('tasks', function(err, collection) {
         collection.insert(task, {safe:true}, function(err, result) {
             if (err) {
-                res.send({'error':'An error has occurred'});
+                res.send({'error':'An error has occurred'})
             } else {
-                console.log('Success: ' + JSON.stringify(result[0]));
+                console.log('Saved on database')
                 res.redirect('/')
             }
-        });
-    });
+        })
+    })
 }
 
-exports.findById = function(req, res) {
-    var id = req.params.id;
-    console.log('Retrieving task: ' + id);
+exports.findByTask = function(req, res) {
+    var task = req.params.task
+    console.log('Retrieving task: ' + task)
     db.collection('tasks', function(err, collection) {
-        collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-            res.send(item);
-        });
-    });
-};
-
-exports.updateWine = function(req, res) {
-    var id = req.params.id;
-    var wine = req.body;
-    console.log('Updating task: ' + id);
-    console.log(JSON.stringify(wine));
-    db.collection('tasks', function(err, collection) {
-        collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
-            if (err) {
-                console.log('Error updating task: ' + err);
-                res.send({'error':'An error has occurred'});
-            } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(wine);
-            }
-        });
-    });
+        collection.findOne({'task':task}, function(err, result) {
+            res.render('task.hbs', {task: result.task})
+        })
+    })
 }
 
-exports.deleteWine = function(req, res) {
-    var id = req.params.id;
-    console.log('Deleting task: ' + id);
+exports.deleteTask = function(req, res) {
+    var task = req.params.task
+    console.log('Deleting task: ' + task)
     db.collection('tasks', function(err, collection) {
-        collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
+        collection.remove({'task':task}, {safe:true}, function(err, result) {
             if (err) {
-                res.send({'error':'An error has occurred - ' + err});
+                res.send({'error':'An error has occurred - ' + err})
             } else {
-                console.log('' + result + ' document(s) deleted');
-                res.send(req.body);
+                res.render('index.hbs')
             }
-        });
-    });
+        })
+    })
+}
+
+exports.updateTask = function(req, res) {
+    var task = req.body
+    var newtask = task.newtask
+    var oldtask = task.task
+
+    db.collection('tasks', function(err, collection) {
+        collection.update({'task':oldtask}, {'task':newtask}, {safe:true}, function(err, result) {
+            if (err) {
+                console.log('Error updating task: ' + err)
+                res.send({'error':'An error has occurred'})
+            } else {
+                res.redirect('/tasks')
+            }
+        })
+    })
 }

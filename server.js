@@ -22,10 +22,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/tasks', tasks.findAll);
-app.get('/tasks/:id', tasks.findById);
+app.get('/tasks/:task', tasks.findByTask);
 app.post('/tasks', tasks.addTask);
-//app.put('/tasks/:id', tasks.updateTask);
-//app.delete('/tasks/:id', tasks.deleteTask);
+app.post('/update/:task', tasks.updateTask);
+app.post('/delete/:task', tasks.deleteTask);
 
 app.listen(3000, () => {
     console.log('listening on 3000')
