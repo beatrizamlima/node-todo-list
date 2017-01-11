@@ -49,7 +49,7 @@ exports.deleteTask = function(req, res) {
             if (err) {
                 res.send({'error':'An error has occurred - ' + err})
             } else {
-                res.render('index.hbs')
+                res.render('/tasks')
             }
         })
     })
